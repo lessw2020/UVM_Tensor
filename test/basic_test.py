@@ -24,7 +24,7 @@ t.fill_(0)
 print(f"{t=}")
 
 # prefetch
-mgr.cuda_prefetch(t, size*4, 0)
+# mgr.cuda_prefetch(t, size*4, 0)
 
 del t
 
