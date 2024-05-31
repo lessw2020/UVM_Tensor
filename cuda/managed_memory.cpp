@@ -40,8 +40,12 @@ at::Tensor getManagedTensor(size_t nb_bytes, c10::IntArrayRef sizes) {
     return tensor; //, cuda_ptr;
 }
 
-void cuda_prefetch(void *ptr, size_t bytes, int device)
+void cuda_prefetch(at::Tensor in_tensor) //, size_t bytes, int device)
 {
+    void* ptr = in_tensor.data_ptr();
+    size_t bytes = in_tensor.numel() * in_tensor.element_size();
+    int device = in_tensor.get_device();
+
     CUDA_CHECK_RETURN(cudaMemPrefetchAsync(ptr, bytes, device, 0));
     CUDA_CHECK_RETURN(cudaPeekAtLastError());
 }

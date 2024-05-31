@@ -1,5 +1,6 @@
 import torch
 import importlib
+import time
 
 global uvm_mgr
 uvm_mgr = None
@@ -13,11 +14,15 @@ def get_uvm_manager():
         uvm_mgr = importlib.import_module(_uvmlib)
     return uvm_mgr
 
-size = 20
+size = 20000
 mgr = get_uvm_manager()
 # get float tensor
+start = time.time()
 t = mgr.getManagedTensor(size * 4, (size,))
+stop = time.time()
 assert t is not None, f"Failed to get UM tensor"
+
+print(f"um tensor allocated in {stop-start:.2f} seconds")
 
 t.fill_(0)
 
